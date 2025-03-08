@@ -1,0 +1,105 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+
+const tarotCards = [
+  { name: "Пътят на съдбата", meaning: "Големи промени предстоят, приеми ги с отворено сърце." },
+  { name: "Вътрешна сила", meaning: "Силата е в теб, довери се на интуицията си." },
+  { name: "Пробуждане", meaning: "Духовно осъзнаване и нова посока." },
+  { name: "Тайната на времето", meaning: "Миналото, настоящето и бъдещето се свързват в този момент." },
+  { name: "Пазителят на светлината", meaning: "Някой бди над теб, очаквай напътствия." },
+  { name: "Врата към възможности", meaning: "Твори бъдещето си със смелост и решителност." },
+  { name: "Тайната на огледалото", meaning: "Всичко, което търсиш, е вътре в теб." },
+  { name: "Магията на звездите", meaning: "Желание, изпратено във Вселената, ще бъде сбъднато." },
+  { name: "Мистичният съюз", meaning: "Силни връзки и съдбовни срещи се появяват на пътя ти." },
+  // Добави още карти до 33
+];
+
+const zodiacSigns = {
+  "Овен": "Ден за действие – не се колебай, а действай!",
+  "Телец": "Търпението ти ще донесе успех, довери се на процеса.",
+  "Близнаци": "Очаквай важен разговор, който ще промени перспективата ти.",
+  "Рак": "Слушай сърцето си, а не шума на света около теб.",
+  "Лъв": "Днес е твоят ден да блеснеш, покажи себе си!",
+  "Дева": "Редът и дисциплината ще ти донесат спокойствие.",
+  "Везни": "Хармонията в отношенията ти е ключът към успеха.",
+  "Скорпион": "Интуицията ти е изключително силна – следвай я.",
+  "Стрелец": "Приеми новите предизвикателства с усмивка.",
+  "Козирог": "Трудът ти ще даде плодове, но не спирай да се трудиш.",
+  "Водолей": "Остави се на течението, Вселената има план за теб.",
+  "Риби": "Мечтите ти са на път да се сбъднат – остани верен на себе си."
+};
+
+const runes = [
+  "Феху - Изобилие и просперитет те очакват!",
+  "Уруз - Силата ти се увеличава, бъди уверен!",
+  "Тейваз - Победа и напредък във важна сфера от живота ти.",
+  "Гебо - Любов и ново партньорство са на хоризонта.",
+  "Соулу - Енергията на слънцето ще ти донесе успех.",
+  "Ансуз - Очаквай важно послание от Вселената!",
+  "Беркана - Ново начало в личен или професионален план." 
+];
+
+export default function MysticTarot() {
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [zodiacMessage, setZodiacMessage] = useState("");
+  const [selectedRune, setSelectedRune] = useState("");
+
+  const drawTarotCard = () => {
+    const randomCard = tarotCards[Math.floor(Math.random() * tarotCards.length)];
+    setSelectedCard(randomCard);
+  };
+
+  const getZodiacMessage = (sign) => {
+    setZodiacMessage(zodiacSigns[sign] || "Избери своя зодиакален знак.");
+  };
+
+  const drawRune = () => {
+    const randomRune = runes[Math.floor(Math.random() * runes.length)];
+    setSelectedRune(randomRune);
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-6 p-8 bg-gradient-to-b from-black to-indigo-900 text-white min-h-screen text-center relative">
+      <h1 className="text-4xl font-bold text-purple-300">🔮 Тайнствените послания на съдбата 🔮</h1>
+      
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        className="bg-purple-800 p-6 rounded-lg shadow-lg border border-purple-500"
+      >
+        <h2 className="text-2xl text-white">✨ Изтегли своята таро карта ✨</h2>
+        <Button onClick={drawTarotCard} className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg mt-4">Изтегли карта</Button>
+        {selectedCard && (
+          <p className="mt-4 text-lg text-purple-200">{selectedCard.name} - {selectedCard.meaning}</p>
+        )}
+      </motion.div>
+      
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        className="bg-blue-800 p-6 rounded-lg shadow-lg border border-blue-500"
+      >
+        <h2 className="text-2xl text-white">🔭 Астро прогноза 🔭</h2>
+        <select onChange={(e) => getZodiacMessage(e.target.value)} className="bg-gray-800 text-white p-2 rounded mt-4">
+          <option value="">Избери зодия</option>
+          {Object.keys(zodiacSigns).map((sign) => (
+            <option key={sign} value={sign}>{sign}</option>
+          ))}
+        </select>
+        {zodiacMessage && <p className="mt-4 text-lg text-blue-200">{zodiacMessage}</p>}
+      </motion.div>
+      
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        className="bg-yellow-700 p-6 rounded-lg shadow-lg border border-yellow-500"
+      >
+        <h2 className="text-2xl text-white">⚡ Руническо послание ⚡</h2>
+        <Button onClick={drawRune} className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg mt-4">Изтегли руна</Button>
+        {selectedRune && <p className="mt-4 text-lg text-yellow-200">{selectedRune}</p>}
+      </motion.div>
+      
+      <Button onClick={() => window.open('https://www.bojidartaroshop.com', '_blank')} className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg shadow-md mt-4 text-lg">
+        🌐 Запази час за консултация - Bojidartaroshop.com
+      </Button>
+    </div>
+  );
+}
